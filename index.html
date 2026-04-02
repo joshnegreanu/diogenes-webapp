@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="filter: invert(100%);">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -7,6 +7,10 @@
     <title>Josh Negreanu / Diogenes</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
     <link rel="icon" href="images/diogenes.ico">
 
@@ -21,7 +25,7 @@
 
 <body>
     <nav class="topnav">
-        <a href="https://joshnegreanu.com" class="top_nav nav-home">
+        <!-- <a href="https://joshnegreanu.com" class="top_nav nav-home">
             <b>Josh Negreanu &nbsp</b><div class="nav-sub">Portland, OR</div>
         </a>
         <div class="nav-links">
@@ -30,46 +34,158 @@
             <a href="https://linkedin.com/in/joshnegreanu/" target="_blank" class="top_nav">LINKEDIN</a>
             <a href="https://github.com/JoshNegreanu" target="_blank" class="top_nav">GITHUB</a>
             <a href="https://linktr.ee/joshnegreanu" target="_blank" class="top_nav">SOCIALS</a>
-        </div>
+        </div> -->
+        <a class="top_nav_logo" style="text-decoration: none; color: black;" href="https://diogenes.joshnegreanu.com">d\</a>
     </nav>
 
-    <!-- Intro -->
-    <div class="intro-section">
-        <div class="intro-label" style="text-align: left;">
-            About d\ogenes.
+    <!-- Top gradient fade -->
+    <div class="fade-top"></div>
+
+    <!-- Chat Interface -->
+    <div class="chat-page">
+        <div class="chat-messages" id="chatMessages">
+
+            <!-- Greeting Card -->
+            <div class="greeting-card" id="greetingCard">
+                <div class="greeting-title">Hello there.</div>
+                <!-- <br> -->
+                <div class="greeting-sub" style="color: rgb(100, 100, 100)">Diogenes is currently in development and not operational, but should be soon. You can check on development via the <a class="normal_link" style="font-family: 'Inter', sans-serif;" href="https://github.com/joshnegreanu/diogenes" target="_blank"><u>Github repository</u></a>.</div>
+                <br>
+                <!-- <div class="greeting-desc">
+                    Currently in development — the model and server are not yet live.<br>
+                    Feel free to explore the interface or view the
+                    <a class="normal_link" href="https://github.com/joshnegreanu/diogenes" target="_blank"><u>GitHub repository</u></a>.
+                </div> -->
+                <!-- <div class="greeting-chips">
+                    <button class="chip" onclick="handleChip(this)">What is Diogenes?</button>
+                    <button class="chip" onclick="handleChip(this)">How does a diffusion LM work?</button>
+                    <button class="chip" onclick="handleChip(this)">What can you do?</button>
+                </div> -->
+            </div>
         </div>
-        <div class="intro-text">
-            Diogenes is currently a work in progress LLM chatbot entirely built from scratch.
-            While early versions will utilize autoregressive generation paradigms, future versions will explore diffusion-based language modeling and reasoning.
-            <br><br>
-            The project is focused on building a deep understanding of the inner workings of language models, and exploring novel architectures and training paradigms for next generation models.
-            <br><br>
-            <div style="color: rgb(100, 100, 100)">Please feel free to view the <a class="normal_link" href="https://github.com/joshnegreanu/diogenes" target="_blank"><u>Github repository</u></a>.</div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar">
+            <div class="fade-bottom"></div>
+            <div class="chat-input-inner">
+                <textarea
+                    class="chat-input"
+                    id="chatInput"
+                    placeholder="Ask away..."
+                    rows="1"
+                    aria-label="Message input"
+                ></textarea>
+                <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 12V2M7 2L2.5 6.5M7 2L11.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-disclaimer">Diogenes is an experimental project and should not be used for production purposes.</div>
         </div>
     </div>
 
-    <!-- <div id="research" class="section-row">
-        <div class="section-label">
-            <div class="label-title">Research</div>
-            <div class="label-sub">Diffusion LLMs, Bandits</div>
-        </div>
-        <div class="section-entries">
-            <div class="entry-title">Reinforcement Learning for Diffusion LLMs</div>
-            <div class="entry-desc">Investigating the use of reinforcement learning during latent sampling process for reasoning and agentic diffusion language models.</div>
-
-            <div class="entry-title">Attacks on Stochastic Dueling Bandits</div>
-            <div class="entry-desc">We provide a mathematical framework for reward poisoning on stochastic dueling bandits algorithms, proving effective spoofing with sublinear cost bounds and forced linear regret.
-                Paper available on <a href="https://ir.library.oregonstate.edu/concern/honors_college_theses/4b29bg040?locale=en" target="_blank" class="normal_link"><u>OSU Archives</u></a>,
-                code available on <a href="https://github.com/joshnegreanu/attacks-on-stochastic-dueling-bandits" target="_blank" class="normal_link"><u>Github</u></a>.</div>
-        </div>
-    </div> -->
-
-    <!-- <div class="footer-spacer"></div> -->
-
-    <footer class="botnav" style="background-color: white;">
+    <!-- <footer class="botnav" style="background-color: white;">
         <div class="footer_text" style="color: black">WEBSITE CODE IS ON GITHUB. LINK IS ABOVE. © 2026</div>
         <a class="footer_link" style="color: black" href="mailto:joshua.negreanu@gmail.com">joshua.negreanu@gmail.com</a>
-    </footer>
+    </footer> -->
+
+    <script>
+        let hasStarted = false;
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!hasStarted) {
+                const greetingCard = document.getElementById('greetingCard');
+                greetingCard.classList.add('greeting-card--hidden');
+                setTimeout(() => greetingCard.remove(), 350);
+                document.body.classList.add('chat-started');
+                hasStarted = true;
+            }
+
+            appendMessage(text, 'user');
+            input.value = '';
+            input.style.height = 'auto';
+            document.getElementById('sendBtn').disabled = true;
+
+            const typingId = showTyping();
+
+            setTimeout(() => {
+                removeTyping(typingId);
+                const replies = [
+                    "I'm still being written — check back soon.",
+                    "My thoughts are not yet fully formed. The work continues.",
+                    "I exist, but only in potential. Return when the ink has dried.",
+                    "The philosopher is still sharpening his quill.",
+                    "Not yet. But the foundation is being laid.",
+                    "I am under construction — much like any worthwhile idea.",
+                    "Even Socrates needed time. I am not yet ready.",
+                    "The model sleeps. Development continues on GitHub.",
+                ];
+                appendMessage(replies[Math.floor(Math.random() * replies.length)], 'bot');
+            }, 900);
+        }
+
+        function handleChip(btn) {
+            document.getElementById('chatInput').value = btn.textContent;
+            sendMessage();
+        }
+
+        function appendMessage(text, role) {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `message message-${role}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            scrollToBottom();
+        }
+
+        function showTyping() {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            const id = 'typing-' + Date.now();
+            div.id = id;
+            div.className = 'message message-typing';
+            div.innerHTML = `<svg class="scribble-svg" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="scribble-path" d="M2,12 C5,4 9,18 13,11 C17,4 21,17 26,10 C31,3 35,18 40,10 C45,3 49,17 54,10 C59,3 63,18 68,11 C72,4 76,16 78,10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`;
+            messages.appendChild(div);
+            scrollToBottom();
+            return id;
+        }
+
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('chatInput');
+            const btn = document.getElementById('sendBtn');
+
+            btn.disabled = true;
+
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!btn.disabled) sendMessage();
+                }
+            });
+
+            input.addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 160) + 'px';
+                btn.disabled = this.value.trim() === '';
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -31,6 +31,11 @@ body {
     font-family: 'TiemposText', serif;
     font-weight: 300;
     color: black;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* --- Nav --- */
@@ -42,10 +47,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 44px;
+    /* padding: 0 44px; */
     /* transition: all 0.3s ease; */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    /* backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); */
 }
 
 .nav-home {
@@ -55,7 +60,7 @@ body {
     color: black;
     /* padding: 0 12px; */
     font-size: 16px;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     /* line-height: -1.4; */
 }
 
@@ -71,7 +76,7 @@ body {
 }
 
 a.top_nav {
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
     font-size: 16px;
     padding: 20px 16px;
@@ -79,6 +84,14 @@ a.top_nav {
     text-decoration: none;
     position: relative;
     /* white-space: nowrap; */
+}
+
+.top_nav_logo {
+    font-family: 'TiemposText', serif;
+    font-size: 32px;
+    /* font-weight: 400; */
+    padding: 28px;
+    padding-top: 16px;
 }
 
 a.top_nav::after {
@@ -210,7 +223,7 @@ a.top_nav:hover::after {
 }
 
 .footer_text {
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
     color: white;
     font-size: 16px;
@@ -219,7 +232,7 @@ a.top_nav:hover::after {
 }
 
 .footer_link {
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
     color: white;
     font-size: 16px;
@@ -358,6 +371,324 @@ a.top_nav:hover::after {
 
     .footer-spacer {
         padding-bottom: 90px;
+    }
+}
+
+/* --- Gradient Fades --- */
+.fade-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 76px;
+    background: linear-gradient(to bottom, white, transparent);
+    pointer-events: none;
+    z-index: 8;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.chat-started .fade-top {
+    opacity: 1;
+}
+
+.fade-bottom {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to top, white, transparent);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.chat-started .fade-bottom {
+    opacity: 1;
+}
+
+.input-disclaimer {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: gray;
+    text-align: center;
+    padding: 8px 0 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.chat-started .input-disclaimer {
+    opacity: 1;
+}
+
+/* --- Chat Layout --- */
+.chat-page {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 90px 20px 40px;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* --- Greeting Card --- */
+.greeting-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* padding: 20px 0 32px; */
+    gap: 12px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.greeting-card--hidden {
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+}
+
+.greeting-title {
+    font-family: 'TiemposText', serif;
+    font-size: 64px;
+    font-weight: lighter;
+    line-height: 1;
+    /* margin-bottom: 8px; */
+}
+
+.greeting-sub {
+    /* font-family: 'TiemposText', serif; */
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    /* color: rgb(100, 100, 100); */
+}
+
+.greeting-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgb(140, 140, 140);
+    line-height: 1.7;
+    max-width: 420px;
+}
+
+.greeting-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+}
+
+.chip {
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 20px;
+    padding: 10px 18px;
+    /* font-family: 'Inter', sans-serif; */
+    font-family: 'TiemposText', serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: black;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.chip:hover {
+    background: #f0f0f0;
+    border-color: #777;
+}
+
+/* --- Messages --- */
+.message {
+    /* font-family: 'TiemposText', serif; */
+    /* font-size: 16px; */
+    /* line-height: 1.75; */
+    font-family: 'Inter', sans-serif;
+    max-width: 82%;
+}
+
+.message-user {
+    align-self: flex-end;
+    background: rgb(245, 245, 245);
+    border-radius: 24px;
+    padding: 12px;
+    padding-left: 18px;
+    padding-right: 18px;
+    font-family: 'Inter', sans-serif;
+    color: black;
+}
+
+.message-bot {
+    align-self: flex-start;
+    color: black;
+}
+
+.message-typing {
+    align-self: flex-start;
+    color: rgb(160, 160, 160);
+}
+
+.scribble-svg {
+    width: 60px;
+    height: 16px;
+    display: block;
+}
+
+.scribble-path {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: scribble-draw 2s ease-in-out infinite;
+}
+
+@keyframes scribble-draw {
+    0%   { stroke-dashoffset: 220; opacity: 1; }
+    60%  { stroke-dashoffset: 0;   opacity: 1; }
+    80%  { stroke-dashoffset: 0;   opacity: 0; }
+    100% { stroke-dashoffset: 220; opacity: 0; }
+}
+
+/* --- Chat Input Bar --- */
+.chat-input-bar {
+    position: relative;
+    width: 100%;
+    color: gray;
+}
+
+.chat-input-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid lightgray;
+    border-radius: 24px;
+    padding: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: white;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+    transition: ease 0.2s;
+}
+
+.chat-input-inner:hover {
+    /* border-color: gray; */
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.chat-input-inner:focus-within {
+    /* border-color: gray; */
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Active chat state: input fixed at bottom, messages at top --- */
+body.chat-started {
+    justify-content: flex-start;
+}
+
+body.chat-started .chat-page {
+    padding-bottom: 160px;
+}
+
+body.chat-started .chat-input-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 20px;
+    background: white;
+    z-index: 9;
+}
+
+body.chat-started .chat-input-inner {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.chat-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    /* font-family: 'TiemposText', serif; */
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+    resize: none;
+    /* line-height: 1.5; */
+    /* min-height: 24px; */
+    max-height: 160px;
+
+    /* font-family: 'TiemposText', serif;
+    font-size: 14px;
+    font-weight: 300; */
+}
+
+.chat-input::placeholder {
+    /* color: rgb(160, 160, 160); */
+    color: gray;
+    transition: opacity 0.2s ease;
+}
+
+.chat-input:focus::placeholder {
+    opacity: 0;
+}
+
+.chat-send-btn {
+    width: 32px;
+    height: 32px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.chat-send-btn:hover {
+    opacity: 0.65;
+}
+
+.chat-send-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+/* --- Chat Responsive --- */
+@media (max-width: 960px) {
+    .greeting-title {
+        font-size: 52px;
+    }
+}
+
+@media (max-width: 600px) {
+    .greeting-title {
+        font-size: 40px;
+    }
+
+    .greeting-chips {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .chip {
+        text-align: center;
+    }
+
+    .message {
+        max-width: 92%;
     }
 }
 
