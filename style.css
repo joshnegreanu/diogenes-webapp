@@ -481,6 +481,44 @@ body.chat-started .input-disclaimer {
     max-width: 420px;
 }
 
+.mode-selector {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    justify-content: center;
+    gap: 8px;
+}
+
+.mode-btn {
+    background: white;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.mode-btn:hover {
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+    color: black;
+}
+
+.mode-btn--active {
+    background: black;
+    border-color: black;
+    color: white;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.mode-btn--active:hover {
+    opacity: 0.75;
+}
+
 .greeting-chips {
     display: flex;
     flex-wrap: wrap;

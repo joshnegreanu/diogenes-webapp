@@ -47,9 +47,14 @@
 
             <!-- Greeting Card -->
             <div class="greeting-card" id="greetingCard">
-                <div class="greeting-title">Hello, there.</div>
+                <div class="greeting-title" id="greetingTitle">Hello, there.</div>
                 <!-- <br> -->
                 <div class="greeting-sub" style="color: rgb(100, 100, 100)">Diogenes is an experimental project; it makes frequent errors and should not be used for professional purposes. You can view the open-source project on <a class="normal_link" style="font-family: 'Inter', sans-serif;" href="https://github.com/joshnegreanu/diogenes" target="_blank"><u>Github</u></a>.</div>
+                <div class="mode-selector" id="modeSelector">
+                    <button class="mode-btn mode-btn--active" data-mode="conversational" onclick="selectMode(this)">Conversational</button>
+                    <button class="mode-btn" data-mode="scholar" onclick="selectMode(this)">Scholar</button>
+                    <button class="mode-btn" data-mode="creative" onclick="selectMode(this)">Creative</button>
+                </div>
                 <br>
                 <!-- <div class="greeting-desc">
                     Currently in development — the model and server are not yet live.<br>
@@ -91,12 +96,19 @@
     </footer> -->
 
     <script>
-        const API_BASE = 'http://localhost:8000';
-        // const API_BASE = 'https://diogenes-server.joshnegreanu.com';
+        // const API_BASE = 'http://localhost:8000';
+        const API_BASE = 'https://diogenes-server.joshnegreanu.com';
         const SESSION_ID = crypto.randomUUID();
         let hasStarted = false;
         let isGenerating = false;
         let userScrolledUp = false;
+        let selectedMode = 'conversational';
+
+        function selectMode(btn) {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('mode-btn--active'));
+            btn.classList.add('mode-btn--active');
+            selectedMode = btn.dataset.mode;
+        }
 
         window.addEventListener('scroll', () => {
             const threshold = 100;
@@ -139,7 +151,7 @@
                 const response = await fetch(`${API_BASE}/chat/stream`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text, session_id: SESSION_ID }),
+                    body: JSON.stringify({ message: text, session_id: SESSION_ID, mode: selectedMode }),
                 });
 
                 if (!response.ok) throw new Error(`Server error: ${response.status}`);
@@ -170,7 +182,7 @@
                 }
             } catch (err) {
                 removeTyping(typingId);
-                appendMessage('Sorry, I am not online. Please try again.', 'bot');
+                appendMessage('Sorry, I appear to not be online. Please try again later.', 'bot');
                 console.error(err);
             } finally {
                 isGenerating = false;
@@ -220,6 +232,31 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
+            const greetings = [
+                'Hello there.',
+                'Greetings.',
+                'Ask me anything.',
+                'Good to see you.',
+                'Hey there.',
+            ];
+            const titleEl = document.getElementById('greetingTitle');
+            let greetingIndex = Math.floor(Math.random() * greetings.length);
+            titleEl.textContent = greetings[greetingIndex];
+
+            const greetingInterval = setInterval(() => {
+                if (!hasStarted) {
+                    titleEl.style.transition = 'opacity 0.4s ease';
+                    titleEl.style.opacity = '0';
+                    setTimeout(() => {
+                        greetingIndex = (greetingIndex + 1) % greetings.length;
+                        titleEl.textContent = greetings[greetingIndex];
+                        titleEl.style.opacity = '1';
+                    }, 400);
+                } else {
+                    clearInterval(greetingInterval);
+                }
+            }, 10000);
+
             const input = document.getElementById('chatInput');
             const btn = document.getElementById('sendBtn');
 
